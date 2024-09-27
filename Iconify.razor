@@ -1,0 +1,15 @@
+@using BlazorIconify.Extensions
+
+<main @attributes="@Attributes" 
+      class="@Attributes.Get("class")" 
+      style="@Attributes.Get("style")">
+    @((MarkupString)_svg)
+</main>
+
+<style>
+    .icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+    }
+</style>

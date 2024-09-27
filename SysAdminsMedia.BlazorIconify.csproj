@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>SysAdminsMedia.BlazorIconify</AssemblyName>
+        <RootNamespace>SysAdminsMedia.BlazorIconify</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>SysAdminsMedia.BlazorIconify</PackageId>
+        <Authors>SysAdmins Media</Authors>
+        <RepositoryUrl>https://github.com/sysadminsmedia/BlazorIconify</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Company>SysAdmins Media</Company>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.8" />
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+</Project>
