@@ -1,12 +1,29 @@
 using Blazored.LocalStorage;
+using Microsoft.Extensions.Options;
+using SysAdminsMedia.BlazorIconify.Extensions;
 
 namespace SysAdminsMedia.BlazorIconify;
 
-public sealed class Registry(ILocalStorageService LocalStorage)
+public sealed class Registry(IOptions<IconifyOptions> options, ILocalStorageService localStorage)
 {
     private const string CachedIconsKey = "cached-icons";
 
     private List<IconMetaData> _icons = [];
+
+    public string GetApiUrl()
+    {
+        return options.Value.ApiUrl ?? "https://api.iconify.design/";
+    }
+
+    public string GetDefaultColor()
+    {
+        return options.Value.DefaultColor ?? string.Empty;
+    }
+    
+    public string GetErrorIcon()
+    {
+        return options.Value.ErrorIcon ?? "ic:baseline-do-not-disturb";
+    }
 
     public async Task AddIcon(IconMetaData metadata)
     {
@@ -14,7 +31,7 @@ public sealed class Registry(ILocalStorageService LocalStorage)
         if (IsRegistered(metadata.Name)) return;
 
         _icons.Add(metadata);
-        await LocalStorage.SetItemAsync(CachedIconsKey, _icons);
+        await localStorage.SetItemAsync(CachedIconsKey, _icons);
     }
 
     public async Task<IconMetaData?> GetIcon(string icon, string? color = "")
@@ -36,13 +53,13 @@ public sealed class Registry(ILocalStorageService LocalStorage)
     public async Task Clear()
     {
         _icons.Clear();
-        await LocalStorage.RemoveItemAsync(CachedIconsKey);
+        await localStorage.RemoveItemAsync(CachedIconsKey);
     }
 
     private async Task<List<IconMetaData>> GetCachedIcons()
     {
         if (_icons.Count > 0) return _icons;
-        return _icons = await LocalStorage.GetItemAsync<List<IconMetaData>>(CachedIconsKey) ?? [];
+        return _icons = await localStorage.GetItemAsync<List<IconMetaData>>(CachedIconsKey) ?? [];
     }
 
     private bool IsRegistered(string icon) =>

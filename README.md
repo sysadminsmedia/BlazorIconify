@@ -17,6 +17,11 @@ First, you need to add the following line to your `_Imports.razor` file:
 @using SysAdminsMedia.BlazorIconify
 ```
 
+Add the following to program.cs:
+```csharp
+builder.Services.AddBlazorIconify();
+```
+
 Then, you can use the `Iconify` component in your Blazor components like this:
 ```html
 <Iconify Icon="mdi:home" />
@@ -25,4 +30,17 @@ Then, you can use the `Iconify` component in your Blazor components like this:
 You can also adjust the color and other properties of the icon:
 ```html
 <Iconify Icon="mdi:home" Color="red" Class="my-custom-class" Style="align-content: center;" />
+```
+
+### Configuration Options
+You can change the configuration to use a custom Iconify API endpoint, set a default icon color, or set a different error icon.
+You simply need to set up the `appsettings.json` file like this:
+```json
+{
+  "Iconify": {
+    "ApiEndpoint": "https://custom-iconify-api-endpoint.com",
+    "DefaultColor": "blue",
+    "ErrorIcon": "mdi:alert"
+  }
+}
 ```

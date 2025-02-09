@@ -1,13 +1,15 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Blazored.LocalStorage;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace SysAdminsMedia.BlazorIconify.Extensions;
 
 public static class IconifyExtension
 {
-    public static IServiceCollection AddBlazorIconify(this IServiceCollection services) => services
+    public static IServiceCollection AddBlazorIconify(this IServiceCollection services, IConfiguration configuration) => services
+        .Configure<IconifyOptions>(configuration.Bind)
         .AddScoped<Registry>()
         .AddBlazoredLocalStorage(
             config =>

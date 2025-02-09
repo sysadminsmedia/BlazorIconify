@@ -7,11 +7,8 @@ using SysAdminsMedia.BlazorIconify.Extensions;
 
 namespace SysAdminsMedia.BlazorIconify;
 
-public partial class Iconify : ComponentBase
+public class Iconify : ComponentBase
 {
-    private const string API = "https://api.iconify.design/";
-    private const string ErrorIcon = "ic:baseline-do-not-disturb";
-
     private string _svg = string.Empty;
     private bool _initialized;
 
@@ -24,7 +21,7 @@ public partial class Iconify : ComponentBase
 
     [Parameter] public string Icon { get; set; } = string.Empty;
 
-    [Parameter] public string Color { get; set; } = string.Empty;
+    [Parameter] public string? Color { get; set; }
     
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -36,8 +33,13 @@ public partial class Iconify : ComponentBase
         if (string.IsNullOrEmpty(Icon))
         {
             // Fallback to error icon if no icon is provided
-            Icon = ErrorIcon;
+            Icon = Registry.GetErrorIcon();
             return;
+        }
+
+        if (string.IsNullOrEmpty(Color))
+        {
+            Color = Registry.GetDefaultColor();
         }
 
         // Only fetch the icon if it has changed
@@ -53,7 +55,7 @@ public partial class Iconify : ComponentBase
         }
         else
         { 
-            string iconUrl = $"{API}{Icon.Replace(':', '/')}.svg";
+            string iconUrl = $"{Registry.GetApiUrl()}{Icon.Replace(':', '/')}.svg";
             if (!string.IsNullOrEmpty(Color))
             {
                 iconUrl += $"?color={UrlEncoder.Default.Encode(Color)}";
@@ -136,12 +138,6 @@ public partial class Iconify : ComponentBase
             case not { Name: "svg" } or null:
                 Console.WriteLine("Failed to find svg element.");
                 return;
-        }
-
-        if (rootElement is null)
-        {
-            Console.WriteLine("Failed to find svg element.");
-            return;
         }
 
         rootElement.SetAttribute("class", $"{Attributes.Get("i-class")} icon");
